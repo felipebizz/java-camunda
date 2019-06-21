@@ -1,0 +1,26 @@
+# IntelliJ
+.idea
+*.iml
+*.settings
+*.iml
+
+# Compiled class file
+*.class
+*.db
+
+# Log file
+/logs
+*.log
+
+/target/
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
