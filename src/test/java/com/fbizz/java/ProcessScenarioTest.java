@@ -7,6 +7,8 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
+import org.camunda.bpm.scenario.delegate.EventSubscriptionDelegate;
+import org.camunda.bpm.scenario.delegate.TaskDelegate;
 import org.camunda.bpm.scenario.run.ProcessRunner.ExecutableRunner;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -69,12 +71,8 @@ public class ProcessScenarioTest {
         ExecutableRunner starter = Scenario.run(myProcess) //
                 .startByKey(PROCESS_DEFINITION_KEY);
 
-        when(myProcess.waitsAtReceiveTask(anyString())).thenReturn((messageSubscription) -> {
-            messageSubscription.receive();
-        });
-        when(myProcess.waitsAtUserTask(anyString())).thenReturn((task) -> {
-            task.complete();
-        });
+        when(myProcess.waitsAtReceiveTask(anyString())).thenReturn(EventSubscriptionDelegate::receive);
+        when(myProcess.waitsAtUserTask(anyString())).thenReturn(TaskDelegate::complete);
 
         // OK - everything prepared - let's go and execute the scenario
         Scenario scenario = starter.execute();
